@@ -67,54 +67,6 @@ class PoissonPDF(BackendBase):
             [(min_poi if allow_negative_signal else 0.0, poi_upper_bound)],
         )
 
-    def get_objective_function(
-        self,
-        expected: ExpectationType = ExpectationType.observed,
-        data: np.ndarray = None,
-        do_grad: bool = False,
-    ):
-        r"""
-        Objective function i.e. twice negative log-likelihood, :math:`-2\log\mathcal{L}(\mu, \theta)`
-
-        Args:
-            expected (~spey.ExpectationType): Sets which values the fitting algorithm should focus and
-              p-values to be computed.
-
-              * :obj:`~spey.ExpectationType.observed`: Computes the p-values with via post-fit
-                prescriotion which means that the experimental data will be assumed to be the truth
-                (default).
-              * :obj:`~spey.ExpectationType.aposteriori`: Computes the expected p-values with via
-                post-fit prescriotion which means that the experimental data will be assumed to be
-                the truth.
-              * :obj:`~spey.ExpectationType.apriori`: Computes the expected p-values with via pre-fit
-                prescription which means that the SM will be assumed to be the truth.
-            data (``np.ndarray``, default ``None``): input data that to fit
-            do_grad (``bool``, default ``True``): If ``True`` return objective and its gradient
-              as ``tuple`` if ``False`` only returns objective function.
-
-        Returns:
-            ``Callable[[np.ndarray], Union[float, Tuple[float, np.ndarray]]]``:
-            Function which takes fit parameters (:math:`\mu` and :math:`\theta`) and returns either
-            objective or objective and its gradient.
-        """
-        current_data = (
-            self.background_yields if expected == ExpectationType.apriori else self.data
-        )
-        data = current_data if data is None else data
-
-        def negative_loglikelihood(pars: np.ndarray) -> np.ndarray:
-            """Compute twice negative log-likelihood"""
-            return -np.sum(
-                poisson.logpmf(
-                    data, pars[0] * self.signal_yields + self.background_yields
-                )
-            )
-
-        if do_grad:
-            raise NotImplementedError("Gradient has not been implemented.")
-
-        return negative_loglikelihood
-
     def get_logpdf_func(
         self,
         expected: ExpectationType = ExpectationType.observed,
