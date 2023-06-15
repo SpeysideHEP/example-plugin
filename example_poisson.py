@@ -130,7 +130,7 @@ class PoissonPDF(BackendBase):
                 ``np.ndarray``:
                 generated samples
             """
-            return poisson.rsv(
+            return poisson.rvs(
                 pars[0] * self.signal_yields + self.background_yields,
                 size=(sample_size, len(self.signal_yields)),
             )
