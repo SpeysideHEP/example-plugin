@@ -21,7 +21,7 @@ class PoissonPDF(BackendBase):
     """Version of the backend"""
     author: str = "John Smith"
     """Author of the backend"""
-    spey_requires: str = ">=0.0.1,<0.1.0"
+    spey_requires: str = ">=0.1.0"
     """Spey version required for the backend"""
     doi: str = "doi/address"
     """Citable DOI for the backend"""
