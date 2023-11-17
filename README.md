@@ -7,15 +7,23 @@ $$
 
 where $n, n_s$ and $n_b$ are data, signal and background yields, respectively.
 
-These files are designed to be implemented as a plug-in for the spey interface and can be used as a template. Please see [Spey's documentation](https://speysidehep.github.io/spey/) for details on how different features can be implemented.
+These files are designed to be implemented as a plug-in for the spey interface and can be used as a template. Please see [Spey's documentation](https://speysidehep.github.io/spey/) for details on implementing different features.
+
+This plug-in can be installed from GitHub with `pip`
+
+```
+python -m pip install --upgrade "git+https://github.com/SpeysideHEP/example-plugin"
+```
+
+or from the locally cloned repository
+
+```
+python -m pip install --upgrade .
+```
 
 ## Usage
 
-Once the repository is cloned simply run the following command
-```
-pip install -e .
-```
-This will create a Python entry accessor for Spey to look for. Once this is done, the model can be used through Spey as follows
+Once this plug in is installed, the model can be used through Spey as follows
 ```python
 stat_wrapper = spey.get_backend('example.poisson')
 stat_model = stat_wrapper(
